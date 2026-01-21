@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('bulls')
@@ -10,50 +11,63 @@ export class Bull {
         carcass: 0.1,
     };
 
+    @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000', description: 'Bull unique identifier' })
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @ApiProperty({ example: '992', description: 'Bull ear tag number' })
     @Column({ unique: true, name: 'ear_tag' })
     earTag: string;
 
+    @ApiProperty({ example: 'Toro Black Emerald', description: 'Bull name' })
     @Column()
     name: string;
 
+    @ApiProperty({ example: 'Angus', description: 'Bull breed' })
     @Column()
     breed: string;
 
+    @ApiProperty({ example: 'negro', description: 'Bull coat color', enum: ['negro', 'colorado'] })
     @Column({ name: 'coat_color' })
-    coatColor: string; // 'black' | 'red'
+    coatColor: string;
 
+    @ApiProperty({ example: 'propio', description: 'Bull origin', enum: ['propio', 'catalogo'] })
     @Column()
-    origin: string; // 'own' | 'catalog'
+    origin: string;
 
+    @ApiProperty({ example: 'vaquillona', description: 'Bull usage', enum: ['vaquillona', 'vaca'] })
     @Column()
-    usage: string; // 'heifer' | 'cow'
+    usage: string;
 
+    @ApiProperty({ example: 36, description: 'Bull age in months' })
     @Column({ name: 'age_months' })
     ageMonths: number;
 
+    @ApiProperty({ example: 'Top 1% calving ease', description: 'Featured trait of the bull', required: false })
     @Column({ name: 'featured_trait', nullable: true })
     featuredTrait: string;
 
-    // Flattened stats for easy querying and sorting
+    @ApiProperty({ example: 85, description: 'Growth score (0-100)' })
     @Column({ type: 'int', default: 0 })
     growth: number;
 
+    @ApiProperty({ example: 98, description: 'Calving ease score (0-100)' })
     @Column({ type: 'int', default: 0, name: 'calving_ease' })
     calvingEase: number;
 
+    @ApiProperty({ example: 75, description: 'Reproduction score (0-100)' })
     @Column({ type: 'int', default: 0 })
     reproduction: number;
 
+    @ApiProperty({ example: 60, description: 'Moderation score (0-100)' })
     @Column({ type: 'int', default: 0 })
     moderation: number;
 
+    @ApiProperty({ example: 82, description: 'Carcass score (0-100)' })
     @Column({ type: 'int', default: 0 })
     carcass: number;
 
-    // Calculated field persisted for fast SQL sorting
+    @ApiProperty({ example: 82.65, description: 'Calculated bull score based on weighted stats' })
     @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, name: 'bull_score' })
     bullScore: number;
 

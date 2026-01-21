@@ -36,10 +36,23 @@ async function bootstrap() {
   );
 
    const config = new DocumentBuilder()
-    .setTitle('BullTrack API')
-    .setDescription('API for the BullTrack application')
+    .setTitle('Bulltrack Pro API')
+    .setDescription('API for Bulltrack Pro - Bovine Genetic Ranking Platform')
     .setVersion('1.0')
-    .addTag('BullTrack')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
+    .addTag('Auth', 'Authentication endpoints')
+    .addTag('Bulls', 'Bull management and search endpoints')
+    .addTag('Favorites', 'User favorites management')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
