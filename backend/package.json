@@ -22,7 +22,8 @@
     "migration:run": "npm run typeorm migration:run -- -d ./orm.config.ts",
     "migration:generate": "npm run typeorm -- -d ./orm.config.ts migration:generate ./db/migrations/new-table",
     "migration:create": "npm run typeorm -- migration:create ./db/migrations/new-table",
-    "migration:revert": "npm run typeorm -- -d ./orm.config.ts migration:revert"
+    "migration:revert": "npm run typeorm -- -d ./orm.config.ts migration:revert",
+    "seed:run": "ts-node --require tsconfig-paths/register ./src/core/database/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
