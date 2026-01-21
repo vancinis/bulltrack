@@ -1,34 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Query, Request, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { BullService } from './bull.service';
-import { CreateBullDto } from './dto/create-bull.dto';
-import { UpdateBullDto } from './dto/update-bull.dto';
+import { QueryBullsDto } from './dto/query-bulls.dto';
 
-@Controller('bull')
+@Controller('bulls')
 export class BullController {
   constructor(private readonly bullService: BullService) {}
 
-  @Post()
-  create(@Body() createBullDto: CreateBullDto) {
-    return this.bullService.create(createBullDto);
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  getBullById(@Param('id') id: string) {
+    return this.bullService.findOneById(id);
   }
 
   @Get()
-  findAll() {
-    return this.bullService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bullService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBullDto: UpdateBullDto) {
-    return this.bullService.update(+id, updateBullDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bullService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  searchBulls(@Query() queryDto: QueryBullsDto, @Request() req) {
+    return this.bullService.searchBulls(queryDto, req.user?.userId);
   }
 }

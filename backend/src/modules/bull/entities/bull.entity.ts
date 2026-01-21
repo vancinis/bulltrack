@@ -2,7 +2,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } fr
 
 @Entity('bulls')
 export class Bull {
-    private readonly SCORE_WEIGHTS = {
+    static readonly SCORE_WEIGHTS = {
         growth: 0.3,
         calvingEase: 0.25,
         reproduction: 0.2,
@@ -61,10 +61,10 @@ export class Bull {
     @BeforeUpdate()
     calculateScore() {
         this.bullScore =
-            (this.growth * this.SCORE_WEIGHTS.growth) +
-            (this.calvingEase * this.SCORE_WEIGHTS.calvingEase) +
-            (this.reproduction * this.SCORE_WEIGHTS.reproduction) +
-            (this.moderation * this.SCORE_WEIGHTS.moderation) +
-            (this.carcass * this.SCORE_WEIGHTS.carcass);
+            (this.growth * Bull.SCORE_WEIGHTS.growth) +
+            (this.calvingEase * Bull.SCORE_WEIGHTS.calvingEase) +
+            (this.reproduction * Bull.SCORE_WEIGHTS.reproduction) +
+            (this.moderation * Bull.SCORE_WEIGHTS.moderation) +
+            (this.carcass * Bull.SCORE_WEIGHTS.carcass);
     }
 }

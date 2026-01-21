@@ -15,4 +15,8 @@ export default registerAs('app', () => ({
     secret: process.env.JWT_SECRET ?? 'dev-secret-key-change-in-production',
     expiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
   },
+  throttler: {
+    ttl: +(process.env.THROTTLE_TTL ?? 60000),
+    limit: +(process.env.THROTTLE_LIMIT ?? 10),
+  },
 }));
