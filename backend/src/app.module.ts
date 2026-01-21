@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule, ThrottlerModuleOptions } from '@nestjs/throttler';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import appConfig from './config/app.config';
 import { DatabaseModule } from './core/database/database.module';
@@ -35,7 +34,7 @@ import { UserModule } from './modules/user/user.module';
     UserModule,
     FavoriteModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
     AppService,
     {
