@@ -15,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             ssl: configService.get('app.database.ssl') === 'true' ? { rejectUnauthorized: false } : false,
             entities: [__dirname + '/../**/*.entity.{js,ts}'],
             migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
+            autoLoadEntities: true,
             synchronize: false,
         }),
         inject: [ConfigService],
