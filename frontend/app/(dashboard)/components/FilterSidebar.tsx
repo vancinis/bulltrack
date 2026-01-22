@@ -1,0 +1,164 @@
+'use client';
+
+import Dropdown from '@/components/ui/Dropdown';
+import RadioGroup from '@/components/ui/RadioGroup';
+import Toggle from '@/components/ui/Toggle';
+import { BullFilters } from '@/lib/types/bull.types';
+import { useState } from 'react';
+import classes from './FilterSidebar.module.css';
+
+interface FilterSidebarProps {
+  readonly filters: BullFilters;
+  readonly onFilterChange: (filters: Partial<BullFilters>) => void;
+  readonly isOpen?: boolean;
+  readonly onClose?: () => void;
+}
+
+export default function FilterSidebar({ filters, onFilterChange, isOpen = true, onClose }: FilterSidebarProps) {
+  const [isVaquillonaEnabled, setIsVaquillonaEnabled] = useState(false);
+
+  const handleOriginChange = (value: string) => {
+    onFilterChange({ origin: value as BullFilters['origin'] });
+  };
+
+  const handleVaquillonaToggle = (checked: boolean) => {
+    setIsVaquillonaEnabled(checked);
+    onFilterChange({ usage: checked ? 'vaquillona' : undefined });
+  };
+
+  const handleCoatColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    onFilterChange({ coatColor: value === 'todos' ? undefined : value as BullFilters['coatColor'] });
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onFilterChange({ sort: e.target.value as 'asc' | 'desc' });
+  };
+
+  return (
+    <>
+      {/* Backdrop para móvil */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed lg:static
+        top-0 left-0
+        w-72 bg-black min-h-screen p-6 flex flex-col
+        z-50
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Close button for mobile */}
+        <button
+          onClick={onClose}
+          className="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+          aria-label="Cerrar filtros"
+        >
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+      <div className="border-b border-gray-200 mb-8">
+        {/* FILTROS ACTIVOS - Origen */}
+      <div className="mb-6 border-b border-gray-200">
+        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+          Filtros Activos
+        </h3>
+        <div className="mb-8">
+          <h4 className="text-sm font-medium text-slate-100 mb-3">Origen</h4>
+          <RadioGroup
+            name="origin"
+            value={filters.origin || 'todos'}
+            onChange={handleOriginChange}
+            options={[
+              { value: 'todos', label: 'Todos' },
+              { value: 'propio', label: 'Toros propios' },
+              { value: 'catalogo', label: 'Catálogo' },
+              { value: 'favoritos', label: 'Favoritos' },
+            ]}
+          />
+        </div>
+      </div>
+
+      {/* FILTROS PRODUCTIVOS */}
+      <div className="mb-8">
+        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+          Filtros Productivos
+        </h3>
+
+        {/* Para vaquillona Toggle */}
+        <div className="mb-4 bg-primary-dark rounded-lg text-white py-3 px-4">
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <span className="text-sm font-medium text-slate-100">Para vaquillona</span>
+              <p className="text-xs text-slate-400">Facilidad de parto</p>
+            </div>
+            <Toggle
+              checked={isVaquillonaEnabled}
+              onChange={handleVaquillonaToggle}
+            />
+          </div>
+        </div>
+
+        {/* Pelaje Dropdown */}
+        <div className="mb-4">
+          <Dropdown
+            label="Pelaje"
+            value={filters.coatColor || 'todos'}
+            onChange={handleCoatColorChange}
+            options={[
+              { value: 'todos', label: 'Todos' },
+              { value: 'negro', label: 'Negro' },
+              { value: 'colorado', label: 'Colorado' },
+            ]}
+          />
+        </div>
+      </div>
+
+      {/* ORDENAMIENTO */}
+      <div className="mb-8">
+        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
+          Ordenamiento
+        </h3>
+        <Dropdown
+          value={filters.sort}
+          onChange={handleSortChange}
+          options={[
+            { value: 'desc', label: 'Score mayor a peor' },
+            { value: 'asc', label: 'Score menor a mayor' },
+          ]}
+        />
+      </div>
+      </div>
+
+      {/* OBJETIVO ACTUAL */}
+      <div className="bg-primary-dark rounded-lg p-4">
+        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-2">
+          Objetivo actual
+        </h3>
+        <p className="text-sm text-slate-200 mb-4">
+          Maximizar la ganancia de peso (destete) manteniendo facilidad de parto
+        </p>
+        <button className={classes.actionButton}>
+          <svg
+            className="w-4 h-4 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Editar criterios
+        </button>
+      </div>
+    </aside>
+    </>
+  );
+}
