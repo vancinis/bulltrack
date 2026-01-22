@@ -185,7 +185,7 @@ cd backend
 pnpm migration:run
 
 # Ejecutar seed (datos iniciales)
-pnpm seed
+pnpm seed:run
 
 # Iniciar en modo desarrollo
 pnpm start:dev
