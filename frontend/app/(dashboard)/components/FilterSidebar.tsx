@@ -10,9 +10,11 @@ import classes from './FilterSidebar.module.css';
 interface FilterSidebarProps {
   readonly filters: BullFilters;
   readonly onFilterChange: (filters: Partial<BullFilters>) => void;
+  readonly isOpen?: boolean;
+  readonly onClose?: () => void;
 }
 
-export default function FilterSidebar({ filters, onFilterChange }: FilterSidebarProps) {
+export default function FilterSidebar({ filters, onFilterChange, isOpen = true, onClose }: FilterSidebarProps) {
   const [isVaquillonaEnabled, setIsVaquillonaEnabled] = useState(false);
 
   const handleOriginChange = (value: string) => {
@@ -34,7 +36,35 @@ export default function FilterSidebar({ filters, onFilterChange }: FilterSidebar
   };
 
   return (
-    <aside className="w-72 bg-black min-h-screen p-6 flex flex-col">
+    <>
+      {/* Backdrop para móvil */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed lg:static
+        top-0 left-0
+        w-72 bg-black min-h-screen p-6 flex flex-col
+        z-50
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Close button for mobile */}
+        <button
+          onClick={onClose}
+          className="lg:hidden absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+          aria-label="Cerrar filtros"
+        >
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
       <div className="border-b border-gray-200 mb-8">
         {/* FILTROS ACTIVOS - Origen */}
       <div className="mb-6 border-b border-gray-200">
@@ -129,5 +159,6 @@ export default function FilterSidebar({ filters, onFilterChange }: FilterSidebar
         </button>
       </div>
     </aside>
+    </>
   );
 }

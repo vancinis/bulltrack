@@ -22,17 +22,16 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
   const imageUrl = bull.imageUrl || getBullImageUrl(bull.breed, bull.coatColor);
 
   return (
-    <div className="bg-white rounded-2xl p-6 hover:shadow-sm transition-all duration-200">
-      <div className="flex items-center gap-6">
-        {/* Checkbox & Rank - Vertical Stack */}
-        <div className="flex items-center gap-3 w-12">
-          <Checkbox className="h-5 w-5 rounded border-2 border-blue-500 bg-white cursor-pointer" />
-          <span className="text-3xl font-bold text-gray-800">#{rank}</span>
-        </div>
+    <div className="bg-white rounded-2xl p-4 md:p-6 hover:shadow-sm transition-all duration-200">
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+        {/* Top section: Checkbox, Rank, Image, Info - Horizontal on all sizes */}
+        <div className="flex items-center gap-3 w-full lg:w-auto">
+          <Checkbox className="h-5 w-5 rounded border-2 border-blue-500 bg-white cursor-pointer flex-shrink-0" />
+          <span className="text-2xl lg:text-3xl font-bold text-gray-800 flex-shrink-0">#{rank}</span>
 
-        <div className='flex items-center gap-4 px-4'>
+        <div className='flex items-center gap-3 flex-1'>
           {/* Image */}
-          <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 shrink-0">
+          <div className="relative w-16 h-16 lg:w-24 lg:h-24 rounded-xl lg:rounded-2xl overflow-hidden bg-gray-100 shrink-0">
             <Image
               src={imageUrl}
               alt={`${bull.breed} ${bull.coatColor}`}
@@ -43,15 +42,12 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
           </div>
 
           {/* Info */}
-          <div className="flex-1 flex flex-col gap-2">
-            <h3 className="text-xl font-bold text-gray-900">{bull.name} #{bull.earTag}</h3>
-            <p className="text-sm text-gray-600">{bull.breed} . {bull.ageMonths} meses</p>
+          <div className="flex-1 flex flex-col gap-1 min-w-0">
+            <h3 className="text-base lg:text-xl font-bold text-gray-900 truncate">{bull.name} #{bull.earTag}</h3>
+            <p className="text-xs lg:text-sm text-gray-600">{bull.breed} · {bull.ageMonths} meses</p>
 
-            <div className="flex gap-2 mt-2">
-              <Badge
-                variant="primary"
-                size="sm"
-              >
+            <div className="flex gap-2 mt-1">
+              <Badge variant="primary" size="sm">
                 {bull.origin === 'propio' ? 'Propio' : 'Catálogo'}
               </Badge>
               <Badge variant="secondary" size="sm">
@@ -60,13 +56,14 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
             </div>
           </div>
         </div>
+        </div>
 
-        {/* Vertical Divider 1 */}
-        <div className="h-24 w-px bg-gray-200 mx-4"></div>
+        {/* Vertical Divider 1 - Hidden on mobile */}
+        <div className="hidden lg:block h-24 w-px bg-gray-200 mx-4"></div>
 
-        <div className="flex items-center gap-4 flex-1">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-4 w-full lg:flex-1">
           {/* Bull Score */}
-          <div className="flex flex-col gap-2 min-w-[240px] w-full">
+          <div className="flex flex-col gap-2 w-full lg:min-w-[240px]">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                 BULL SCORE
@@ -91,8 +88,8 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
             )}
           </div>
 
-          {/* Radar Chart */}
-          <div className="flex items-center justify-center relative px-4">
+          {/* Radar Chart - Centered on mobile */}
+          <div className="flex items-center justify-center relative px-4 w-full lg:w-auto">
             <div className="absolute inset-0 bg-gray-50 rounded-full scale-90 -z-10"></div>
             <BullRadarChart
               growth={bull.growth}
@@ -104,11 +101,11 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
           </div>
         </div>
 
-        {/* Vertical Divider 2 */}
-        <div className="h-24 w-px bg-gray-200 mx-2"></div>
+        {/* Vertical Divider 2 - Hidden on mobile */}
+        <div className="hidden lg:block h-24 w-px bg-gray-200 mx-2"></div>
 
-        {/* Actions */}
-        <div className="flex flex-col gap-2">
+        {/* Actions - Row on mobile, column on desktop */}
+        <div className="flex flex-row lg:flex-col gap-2 justify-center">
           <button
             onClick={() => onViewDetails(bull.id)}
             className="w-10 h-10 rounded-xl bg-black hover:bg-gray-800 transition-colors flex items-center justify-center cursor-pointer"

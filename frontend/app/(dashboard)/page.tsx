@@ -19,6 +19,9 @@ export default function Dashboard() {
   // Local state to persist bull updates
   const [localBulls, setLocalBulls] = useState<Bull[]>([]);
 
+  // State for mobile sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   // Sync localBulls when bulls from API change
   useEffect(() => {
     setLocalBulls(bulls);
@@ -60,12 +63,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex w-full bg-black">
+    <div className="flex w-full bg-black relative">
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed bottom-6 right-6 lg:hidden z-30 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-colors"
+        aria-label="Abrir filtros"
+      >
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+      </button>
+
       {/* FilterSidebar */}
-      <FilterSidebar filters={filters} onFilterChange={setFilters} />
+      <FilterSidebar
+        filters={filters}
+        onFilterChange={setFilters}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       {/* Main Content */}
-      <div className="flex-1 py-6 px-10 bg-[#F9FAFB] rounded-t-4xl">
+      <div className="flex-1 p-6 bg-[#F9FAFB] rounded-t-4xl">
         {/* Header Section */}
         <div className="mb-6">
           <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
