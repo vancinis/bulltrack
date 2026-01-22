@@ -2,8 +2,17 @@
 
 Sistema de gestión y clasificación de genética bovina con ranking automatizado basado en características productivas.
 
+## 🚀 Demo & Links Rápidos
+
+| Recurso | URL |
+| :--- | :--- |
+| **🌐 Demo Web** | [https://bulltrack.vercel.app/](https://bulltrack.vercel.app/) |
+| **🔌 API URL** | [https://bulltrack-production-9921.up.railway.app](https://bulltrack-production-9921.up.railway.app) |
+| **📚 Swagger UI** | [https://bulltrack-production-9921.up.railway.app/api](https://bulltrack-production-9921.up.railway.app/api) |
+
 ## 📋 Tabla de Contenidos
 
+- [Demo & Links Rápidos](#-demo--links-rápidos)
 - [Descripción](#descripción)
 - [Tecnologías](#tecnologías)
 - [Arquitectura](#arquitectura)
