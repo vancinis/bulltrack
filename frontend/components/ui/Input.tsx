@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
 
     const baseStyles = 'w-full px-4 py-2 border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:bg-gray-100 disabled:cursor-not-allowed';
-    const normalStyles = 'border-gray-300 focus:border-green-500 focus:ring-green-500';
+    const normalStyles = 'border-gray-300 focus:border-green-500 focus:ring-green-500 text-gray-700';
     const errorStyles = 'border-red-500 focus:border-red-500 focus:ring-red-500';
 
     const inputClasses = `${baseStyles} ${error ? errorStyles : normalStyles} ${className}`;

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useAuth } from '@/app/(auth)/(hooks)/useAuth';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { useState } from 'react';
 
 interface FormData {
   email: string;
@@ -15,13 +16,14 @@ interface FormErrors {
 }
 
 export default function LoginForm() {
+  const { login, isLoading, error: authError } = useAuth();
+
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,18 +74,7 @@ export default function LoginForm() {
       return;
     }
 
-    // Simular loading
-    setIsLoading(true);
-
-    setTimeout(() => {
-      console.log('Login exitoso:', formData);
-      console.log('Email:', formData.email);
-      console.log('Password:', formData.password);
-      setIsLoading(false);
-
-      // Aquí iría la integración con el backend en el futuro
-      alert('Login simulado exitoso! Revisa la consola.');
-    }, 1000);
+    await login(formData);
   };
 
   return (
@@ -96,6 +87,12 @@ export default function LoginForm() {
           Ingresa tus credenciales para continuar
         </p>
       </div>
+
+      {authError && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+          {authError}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Input

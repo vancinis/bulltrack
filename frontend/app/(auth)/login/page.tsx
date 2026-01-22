@@ -35,7 +35,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
-          © 2024 Bulltrack Pro. Todos los derechos reservados.
+          © {new Date().getFullYear()} Bulltrack Pro. Todos los derechos reservados.
         </p>
       </div>
     </div>
