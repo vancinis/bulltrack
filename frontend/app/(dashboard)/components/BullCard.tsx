@@ -63,8 +63,8 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
 
         <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-4 w-full lg:flex-1">
           {/* Bull Score */}
-          <div className="flex flex-col gap-2 w-full lg:min-w-[240px]">
-            <div className="flex items-center justify-between mb-1">
+          <div className="flex gap-1 flex-col w-full lg:min-w-[240px]">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700 uppercase tracking-widest">
                 BULL SCORE
               </span>
