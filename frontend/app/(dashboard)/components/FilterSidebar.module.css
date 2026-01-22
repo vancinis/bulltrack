@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.actionButton {
+    @apply flex items-center text-sm h-10;
+    padding: 12px 16px;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 12px;
+}

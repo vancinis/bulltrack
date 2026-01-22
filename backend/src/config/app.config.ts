@@ -17,6 +17,6 @@ export default registerAs('app', () => ({
   },
   throttler: {
     ttl: +(process.env.THROTTLE_TTL ?? 60000),
-    limit: +(process.env.THROTTLE_LIMIT ?? 10),
+    limit: +(process.env.THROTTLE_LIMIT ?? 100),
   },
 }));

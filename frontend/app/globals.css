@@ -3,6 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Bulltrack Color Variables */
+  --color-primary: #36E27B;
+  --color-primary-dark: #152B1E;
+  --color-primary-light: #34D399;
+  --color-sidebar: #0F172A;
+  --color-sidebar-accent: #10B981;
+
+  /* Neutrals */
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-600: #4B5563;
+  --gray-900: #111827;
+
+  --color-black: #131714;
 }
 
 @theme inline {
@@ -22,5 +37,55 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Utility classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.bg-black {
+  background-color: var(--color-black);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.bg-primary {
+  background: var(--color-primary);
+}
+
+.bg-primary-dark {
+  background: var(--color-primary-dark);
+}
+
+.border-primary {
+  border-color: var(--color-primary);
 }

@@ -1,0 +1,15 @@
+@reference "tailwindcss";
+
+.locationSelector {
+    @apply h-10 flex items-center space-x-2;
+    padding: 12px 16px;
+    border: 1px solid #36E27B;
+    background-color: #2d3830;
+    border-radius: 12px;
+    width: 170px;
+    justify-content: center;
+
+    svg {
+        color: #36E27B;
+    }
+}
