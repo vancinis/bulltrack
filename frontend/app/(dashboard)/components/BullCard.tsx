@@ -65,7 +65,7 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
           {/* Bull Score */}
           <div className="flex flex-col gap-2 w-full lg:min-w-[240px]">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+              <span className="text-sm font-medium text-gray-700 uppercase tracking-widest">
                 BULL SCORE
               </span>
               <span className="text-3xl font-bold text-gray-900">
@@ -82,7 +82,7 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
             </div>
 
             {bull.featuredTrait && (
-              <p className="text-sm text-gray-700 font-medium">
+              <p className="text-sm text-gray-700 font-medium tracking-widest">
                 {bull.featuredTrait}
               </p>
             )}
