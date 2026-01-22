@@ -1,12 +1,13 @@
+'use client';
 import { Bull } from '@/lib/types/bull.types';
 import BullCard from './BullCard';
 
 interface BullListProps {
-  bulls: Bull[];
-  currentPage: number;
-  limit: number;
-  onToggleFavorite: (id: string) => void;
-  onViewDetails: (id: string) => void;
+  readonly bulls: Bull[];
+  readonly currentPage: number;
+  readonly limit: number;
+  readonly onToggleFavorite: (id: string) => void;
+  readonly onViewDetails: (id: string) => void;
 }
 
 export default function BullList({

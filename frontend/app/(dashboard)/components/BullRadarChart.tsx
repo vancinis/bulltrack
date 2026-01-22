@@ -1,13 +1,13 @@
 'use client';
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from 'recharts';
 
 interface BullRadarChartProps {
-  growth: number;
-  calvingEase: number;
-  reproduction: number;
-  moderation: number;
-  carcass: number;
+  readonly growth: number;
+  readonly calvingEase: number;
+  readonly reproduction: number;
+  readonly moderation: number;
+  readonly carcass: number;
 }
 
 export default function BullRadarChart({

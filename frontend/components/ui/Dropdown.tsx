@@ -1,6 +1,6 @@
 'use client';
 
-import { SelectHTMLAttributes, forwardRef } from 'react';
+import { SelectHTMLAttributes, forwardRef, useId } from 'react';
 
 export interface DropdownOption {
   value: string;
@@ -15,7 +15,8 @@ export interface DropdownProps extends Omit<SelectHTMLAttributes<HTMLSelectEleme
 
 const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(
   ({ options, label, placeholder, className = '', id, ...props }, ref) => {
-    const selectId = id || `dropdown-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedId = useId();
+    const selectId = id || generatedId;
 
     return (
       <div className="w-full">
