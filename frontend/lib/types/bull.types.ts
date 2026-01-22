@@ -33,6 +33,8 @@ export interface BullFilters {
   usage?: 'vaquillona' | 'vaca';
   coatColor?: 'negro' | 'colorado';
   sort: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
 }
 
 export interface PaginatedResponse<T> {
@@ -41,4 +43,18 @@ export interface PaginatedResponse<T> {
   page: number;
   limit: number;
   totalPages: number;
+}
+
+// Alias para la respuesta de la API de bulls
+export type BullApiResponse = PaginatedResponse<Bull>;
+
+// Tipo para los query params del backend (sin 'todos')
+export interface BullQueryParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  origin?: 'propio' | 'catalogo' | 'favoritos';
+  usage?: 'vaquillona' | 'vaca';
+  coatColor?: 'negro' | 'colorado';
+  sort?: 'asc' | 'desc';
 }

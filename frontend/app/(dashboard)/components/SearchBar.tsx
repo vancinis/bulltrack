@@ -17,7 +17,7 @@ export default function SearchBar({ value, onChange, resultCount }: SearchBarPro
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Busca por caravana, nombre o cabaña"
-            className="block w-full px-4 py-3 bg-white border border-transparent rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="block w-full px-4 py-3 bg-white border border-transparent rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-700"
           />
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <svg

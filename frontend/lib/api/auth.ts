@@ -17,10 +17,20 @@ export interface LoginResponse {
   user: User;
 }
 
+// Backend response uses snake_case
+interface LoginResponseBackend {
+  access_token: string;
+  user: User;
+}
+
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-    const { data } = await apiClient.post<LoginResponse>('/auth/login', credentials);
-    return data;
+    const { data } = await apiClient.post<LoginResponseBackend>('/auth/login', credentials);
+    // Map snake_case to camelCase
+    return {
+      accessToken: data.access_token,
+      user: data.user,
+    };
   },
 
   getProfile: async (): Promise<User> => {

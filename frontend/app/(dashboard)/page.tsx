@@ -1,33 +1,53 @@
 'use client';
 
-import { getMockBulls } from '@/lib/data/mockBulls';
-import { useState } from 'react';
+import { Bull } from '@/lib/types/bull.types';
+import { useEffect, useState } from 'react';
 import BullList from './components/BullList';
 import FilterSidebar from './components/FilterSidebar';
 import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
+import { useBulls } from './hooks/useBulls';
+import { useFavorites } from './hooks/useFavorites';
 import { useFilters } from './hooks/useFilters';
 
 export default function Dashboard() {
-  const allBulls = getMockBulls();
-  const [bulls, setBulls] = useState(allBulls);
+  const { filters, setFilters, setPage } = useFilters(4);
 
-  const {
-    filters,
-    setFilters,
-    paginatedBulls,
-    page,
-    setPage,
-    totalPages,
-    totalResults,
-  } = useFilters(bulls, 10);
+  const { bulls, loading, error, pagination, refetch } = useBulls(filters);
+  const { toggleFavorite, error: favoriteError } = useFavorites();
 
-  const handleToggleFavorite = (id: string) => {
-    setBulls(prevBulls =>
-      prevBulls.map(bull =>
-        bull.id === id ? { ...bull, isFavorite: !bull.isFavorite } : bull
-      )
+  // Local state to persist bull updates
+  const [localBulls, setLocalBulls] = useState<Bull[]>([]);
+
+  // Sync localBulls when bulls from API change
+  useEffect(() => {
+    setLocalBulls(bulls);
+  }, [bulls]);
+
+  const handleToggleFavorite = async (id: string) => {
+    const bull = localBulls.find(b => b.id === id);
+    if (!bull) return;
+
+    const currentStatus = bull.isFavorite;
+    const newStatus = !currentStatus;
+
+    // Optimistic update - update local state immediately
+    const updatedBulls = localBulls.map(b =>
+      b.id === id ? { ...b, isFavorite: newStatus } : b
     );
+    setLocalBulls(updatedBulls);
+
+    // Call API
+    const success = await toggleFavorite(id, currentStatus);
+
+    if (!success) {
+      // Revert optimistic update on error
+      setLocalBulls(bulls);
+    } else if (filters.origin === 'favoritos' && !newStatus) {
+      // Special case: if we're viewing favorites and removed one,
+      // refetch to remove it from the list
+      await refetch();
+    }
   };
 
   const handleViewDetails = (id: string) => {
@@ -96,27 +116,58 @@ export default function Dashboard() {
           </details>
         </div>
 
+        {/* Error State - Bulls Loading */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={refetch}
+              className="mt-2 text-sm underline hover:no-underline"
+            >
+              Intentar nuevamente
+            </button>
+          </div>
+        )}
+
+        {/* Error State - Favorites */}
+        {favoriteError && (
+          <div className="mb-4 p-4 bg-orange-50 border border-orange-200 rounded-lg text-orange-700">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>{favoriteError}</span>
+            </div>
+          </div>
+        )}
+
         {/* Search Bar & Results Row */}
         <SearchBar
           value={filters.search}
           onChange={handleSearchChange}
-          resultCount={totalResults}
+          resultCount={pagination.total}
         />
 
         {/* Bull List */}
         <BullList
-          bulls={paginatedBulls}
-          currentPage={page}
-          limit={10}
+          bulls={localBulls}
+          currentPage={pagination.page}
+          limit={pagination.limit}
           onToggleFavorite={handleToggleFavorite}
           onViewDetails={handleViewDetails}
+          isLoading={loading}
         />
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {pagination.totalPages > 1 && (
           <Pagination
-            currentPage={page}
-            totalPages={totalPages}
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
             onPageChange={setPage}
           />
         )}

@@ -3,6 +3,7 @@
 import Badge from '@/components/ui/Badge';
 import Checkbox from '@/components/ui/Checkbox';
 import { Bull } from '@/lib/types/bull.types';
+import { getBullImageUrl } from '@/lib/utils/bullImages';
 import Image from 'next/image';
 import BullRadarChart from './BullRadarChart';
 
@@ -17,6 +18,9 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
   // Convert bullScore from 0-100 scale to 0-1 scale for display
   const normalizedScore = bull.bullScore / 100;
 
+  // Get image URL based on breed and coat color
+  const imageUrl = bull.imageUrl || getBullImageUrl(bull.breed, bull.coatColor);
+
   return (
     <div className="bg-white rounded-2xl p-6 hover:shadow-sm transition-all duration-200">
       <div className="flex items-center gap-6">
@@ -28,26 +32,19 @@ export default function BullCard({ bull, rank, onToggleFavorite, onViewDetails }
 
         <div className='flex items-center gap-4 px-4'>
           {/* Image */}
-          <div className="relative w-21 h-18 rounded-2xl overflow-hidden bg-gray-100 shrink-0">
-            {bull.imageUrl ? (
-              <Image
-                src={bull.imageUrl}
-                alt={bull.name}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <svg className="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z" />
-                </svg>
-              </div>
-            )}
+          <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 shrink-0">
+            <Image
+              src={imageUrl}
+              alt={`${bull.breed} ${bull.coatColor}`}
+              fill
+              className="object-cover"
+              priority={rank <= 3}
+            />
           </div>
 
           {/* Info */}
           <div className="flex-1 flex flex-col gap-2">
-            <h3 className="text-xl font-bold text-gray-900">Toro #{bull.earTag}</h3>
+            <h3 className="text-xl font-bold text-gray-900">{bull.name} #{bull.earTag}</h3>
             <p className="text-sm text-gray-600">{bull.breed} . {bull.ageMonths} meses</p>
 
             <div className="flex gap-2 mt-2">

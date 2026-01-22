@@ -8,6 +8,52 @@ interface BullListProps {
   readonly limit: number;
   readonly onToggleFavorite: (id: string) => void;
   readonly onViewDetails: (id: string) => void;
+  readonly isLoading?: boolean;
+}
+
+function BullCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl p-6 border border-gray-200 animate-pulse">
+      <div className="flex items-center gap-6 w-full">
+        {/* Checkbox and Rank */}
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 bg-gray-200 rounded"></div>
+          <div className="w-12 h-8 bg-gray-200 rounded"></div>
+        </div>
+
+        {/* Image */}
+        <div className="w-24 h-24 bg-gray-200 rounded-2xl"></div>
+
+        {/* Info */}
+        <div className="flex-1 space-y-2">
+          <div className="h-6 bg-gray-200 rounded w-48"></div>
+          <div className="h-4 bg-gray-200 rounded w-32"></div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-20 w-px bg-gray-200"></div>
+
+        {/* Bull Score */}
+        <div className="w-48 space-y-2">
+          <div className="h-4 bg-gray-200 rounded w-24"></div>
+          <div className="h-8 bg-gray-200 rounded w-16"></div>
+          <div className="h-2 bg-gray-200 rounded w-full"></div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-20 w-px bg-gray-200"></div>
+
+        {/* Radar Chart */}
+        <div className="w-32 h-32 bg-gray-200 rounded-full"></div>
+
+        {/* Actions */}
+        <div className="flex gap-2">
+          <div className="w-10 h-10 bg-gray-200 rounded-xl"></div>
+          <div className="w-10 h-10 bg-gray-200 rounded-xl"></div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function BullList({
@@ -16,7 +62,20 @@ export default function BullList({
   limit,
   onToggleFavorite,
   onViewDetails,
+  isLoading = false,
 }: BullListProps) {
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {Array.from({ length: limit }).map((_, index) => (
+          <BullCardSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
+
+  // Empty state
   if (bulls.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
@@ -29,6 +88,7 @@ export default function BullList({
     );
   }
 
+  // Normal state - show bulls
   return (
     <div className="space-y-4">
       {bulls.map((bull, index) => {
