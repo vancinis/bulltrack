@@ -4,10 +4,10 @@ Sistema de gestión y clasificación de genética bovina con ranking automatizad
 
 ## 🚀 Demo & Links Rápidos
 
-| Recurso | URL |
-| :--- | :--- |
-| **🌐 Demo Web** | [https://bulltrack.vercel.app/](https://bulltrack.vercel.app/) |
-| **🔌 API URL** | [https://bulltrack-production-9921.up.railway.app](https://bulltrack-production-9921.up.railway.app) |
+| Recurso           | URL                                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------------------------------------- |
+| **🌐 Demo Web**   | [https://bulltrack.vercel.app/](https://bulltrack.vercel.app/)                                               |
+| **🔌 API URL**    | [https://bulltrack-production-9921.up.railway.app](https://bulltrack-production-9921.up.railway.app)         |
 | **📚 Swagger UI** | [https://bulltrack-production-9921.up.railway.app/api](https://bulltrack-production-9921.up.railway.app/api) |
 
 ## 📋 Tabla de Contenidos
@@ -34,6 +34,7 @@ Bulltrack Pro es una plataforma full-stack para la gestión y clasificación de 
 ## 🛠 Tecnologías
 
 ### Backend
+
 - **NestJS** - Framework Node.js progresivo
 - **TypeORM** - ORM para TypeScript
 - **PostgreSQL** - Base de datos relacional
@@ -46,6 +47,7 @@ Bulltrack Pro es una plataforma full-stack para la gestión y clasificación de 
 - **class-validator** - Validación de DTOs
 
 ### Frontend
+
 - **Next.js 14+** - Framework React con App Router
 - **TypeScript** - Tipado estático
 - **Tailwind CSS** - Framework CSS utility-first
@@ -55,6 +57,7 @@ Bulltrack Pro es una plataforma full-stack para la gestión y clasificación de 
 - **Lucide React** - Iconos
 
 ### DevOps
+
 - **Docker** - Containerización
 - **Docker Compose** - Orquestación de contenedores
 
@@ -83,6 +86,7 @@ backend/
 ```
 
 **Principios aplicados:**
+
 - **Separation of Concerns**: Módulos independientes por dominio
 - **Dependency Injection**: IoC container de NestJS
 - **Repository Pattern**: Abstracción de acceso a datos
@@ -112,6 +116,7 @@ frontend/
 ```
 
 **Principios aplicados:**
+
 - **Atomic Design**: Componentes UI modulares y reutilizables
 - **Feature-Based Structure**: Organización por features usando Route Groups `()`
 - **Custom Hooks**: Lógica de negocio encapsulada
@@ -122,7 +127,7 @@ frontend/
 
 ### Prerrequisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - PostgreSQL 14+
 - pnpm (recomendado) o npm
 - Docker (opcional)
@@ -134,7 +139,21 @@ git clone <repository-url>
 cd bulltrack
 ```
 
-### 2. Configurar Backend
+### 2. Levantar Base de Datos (Docker)
+
+Para una configuración rápida, levantamos únicamente la base de datos usando Docker:
+
+```bash
+# Iniciar solo el servicio de base de datos
+docker-compose up -d postgres
+
+# Verificar que está corriendo
+docker-compose ps
+```
+
+> **Nota**: Esto levantará una instancia de PostgreSQL en el puerto `5432` lista para usar.
+
+### 3. Configurar Backend
 
 ```bash
 cd backend
@@ -163,13 +182,13 @@ JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 PORT=3000
 ```
 
-### 3. Configurar Frontend
+### 4. Configurar Frontend
 
 ```bash
 cd ../frontend
 
 # Instalar dependencias
-npm install
+pnpm install
 
 # Configurar variables de entorno
 cp .env.local.example .env.local
@@ -268,15 +287,18 @@ La documentación completa de la API está disponible en Swagger UI:
 ### Endpoints Principales
 
 #### Autenticación
+
 - `POST /auth/register` - Registrar nuevo usuario
 - `POST /auth/login` - Iniciar sesión
 - `GET /auth/profile` - Obtener perfil del usuario (requiere JWT)
 
 #### Bulls
+
 - `GET /bulls` - Listar bulls con filtros y paginación
 - `GET /bulls/:id` - Obtener bull por ID
 
 #### Favoritos
+
 - `POST /favorites/:bullId` - Agregar a favoritos
 - `DELETE /favorites/:bullId` - Quitar de favoritos
 - `GET /favorites` - Listar favoritos del usuario
@@ -293,10 +315,10 @@ Password: seed28
 El Bull Score se calcula automáticamente usando la siguiente fórmula:
 
 ```
-Bull Score = (Growth × 0.30) + 
-             (Calving Ease × 0.25) + 
-             (Reproduction × 0.20) + 
-             (Moderation × 0.15) + 
+Bull Score = (Growth × 0.30) +
+             (Calving Ease × 0.25) +
+             (Reproduction × 0.20) +
+             (Moderation × 0.15) +
              (Carcass × 0.10)
 ```
 
@@ -312,12 +334,10 @@ Si el proyecto tuviera **2 semanas adicionales de desarrollo**, se implementarí
 
 - **Creación de Bulls**:
   - Formulario con validación completa
-  - Cálculo automático de Bull Score
   - Preview del ranking estimado
 
 - **Edición de Bulls**:
   - Actualización de características
-  - Recalculo automático de scores
   - Historial de cambios (audit log)
 
 - **Eliminación de Bulls**:
@@ -330,15 +350,15 @@ Si el proyecto tuviera **2 semanas adicionales de desarrollo**, se implementarí
   - Preview antes de guardar
   - Validación de formato y tamaño
 
-**Tecnologías**:
-- `multer` para upload de archivos
-- React Dropzone para UI de upload
+- **Configuracion de criterios**:
+  - Ajuste de pesos
 
 ### 2. Infraestructura Cloud y Optimización
 
 **Alcance:** Mejora de performance y escalabilidad
 
 #### Storage en la Nube
+
 - **Google Cloud Storage** o **AWS S3**:
   - Upload directo de imágenes
   - URLs firmadas para seguridad
@@ -347,6 +367,7 @@ Si el proyecto tuviera **2 semanas adicionales de desarrollo**, se implementarí
   - Backup automático
 
 #### Sistema de Caché con Redis
+
 - **Cache de Queries**:
   - Resultados de búsquedas frecuentes
   - Listados con filtros comunes
@@ -363,6 +384,7 @@ Si el proyecto tuviera **2 semanas adicionales de desarrollo**, se implementarí
   - Rate limiting distribuido
 
 **Beneficios esperados**:
+
 - ⚡ Reducción de latencia: 60-80%
 - 📈 Capacidad de escalar horizontalmente
 - 💰 Costos optimizados con caching
@@ -392,10 +414,6 @@ Si el proyecto tuviera **2 semanas adicionales de desarrollo**, se implementarí
   - Comparación de bulls
   - Reportes personalizados
   - Notas y comentarios
-
-## 📄 Licencia
-
-Este proyecto es privado y confidencial.
 
 ---
 
